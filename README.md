@@ -67,6 +67,7 @@ PS: if you want people not to be able to connect via ssh as root even if they ha
 After protecting our connection with RSA encryption via SSH. Now let's protect our webserver(server) from DOS attack and Port scanning.
 <h3>DOS Attack</h3>
 I used ```iptables``` for this :
+
 ```
 iptables -F #flushign all current rules
 
@@ -85,4 +86,8 @@ sudo iptabels -A INPUT -p udp --dport 53 -j ACCEPT
 #droping packets that were seen 10 times in the last 60 seconds(new connections only)
 sudo iptables -I INPUT -m state --state NEW -m recent --set
 sudo iptables -I INPUT -m state --state NEW -m recent --update --seconds 60 --hitcount 10 -j DROP
+
+#drop by default
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWORD DROP
 ```
