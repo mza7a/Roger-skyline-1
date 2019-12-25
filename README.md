@@ -67,7 +67,7 @@ PS: if you want people not to be able to connect via ssh as root even if they ha
 <h3>Protection</h3>
 After protecting our connection with RSA encryption via SSH. Now let's protect our webserver(server) from DOS attack and Port scanning.
 <h4>DOS Attack</h4>
-I used  ```iptables```  for this :
+I used iptables for this :
 
 ```
 iptables -F #flushign all current rules
