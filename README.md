@@ -63,3 +63,26 @@ Addition : if you want to change you current ssh port you should look for ```Por
 Now go back to ```~/.ssh/``` file and copy the private key ```id_rsa``` to your Mac or windows or whatevering is your host.
 Now you can be able to connect via ssh like this : ```ssh -i /path/to/id_rsa user@server's_ip -p port``` and done. Now you can share the private key we created for people to connect to your server via ssh. It's fun right ?
 PS: if you want people not to be able to connect via ssh as root even if they have the password just look for ```PermitRootLogin no``` remove the dash if it exists and change whatever you have to ```no```. Don't forget to restart your service :o.
+
+After protecting our connection with RSA encryption via SSH. Now let's protect our webserver(server) from DOS attack and Port scanning.
+<h3>DOS Attack</h3>
+I used ```iptables``` for this :
+```
+iptables -F #flushign all current rules
+
+#allowing established and related connection
+#established : are connections that have been seen in either ways (input or output)
+#related : are new trusted connection (like watching a youtube video)
+sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+#allowing ports : DNS, HTTP, HTTPS, SSH
+sudo iptabels -A INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptabels -A INPUT -p tcp --dport 443 -j ACCEPT
+sudo iptabels -A INPUT -p tcp --dport [SSH_PORT] -j ACCEPT
+sudo iptabels -A INPUT -p tcp --dport 53 -j ACCEPT
+sudo iptabels -A INPUT -p udp --dport 53 -j ACCEPT
+
+#droping packets that were seen 10 times in the last 60 seconds(new connections only)
+sudo iptables -I INPUT -m state --state NEW -m recent --set
+sudo iptables -I INPUT -m state --state NEW -m recent --update --seconds 60 --hitcount 10 -j DROP
+```
