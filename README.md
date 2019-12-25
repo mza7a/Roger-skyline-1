@@ -64,8 +64,9 @@ Now go back to ```~/.ssh/``` file and copy the private key ```id_rsa``` to your 
 Now you can be able to connect via ssh like this : ```ssh -i /path/to/id_rsa user@server's_ip -p port``` and done. Now you can share the private key we created for people to connect to your server via ssh. It's fun right ?
 PS: if you want people not to be able to connect via ssh as root even if they have the password just look for ```PermitRootLogin no``` remove the dash if it exists and change whatever you have to ```no```. Don't forget to restart your service :o.
 
+<h3>Protection</h3>
 After protecting our connection with RSA encryption via SSH. Now let's protect our webserver(server) from DOS attack and Port scanning.
-<h3>DOS Attack</h3>
+<h4>DOS Attack</h4>
 I used ```iptables``` for this :
 
 ```
